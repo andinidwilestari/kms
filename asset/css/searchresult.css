@@ -1,0 +1,6 @@
+.search-result    : first-child { margin-top: 0 !important; }
+.search-result    { margin-top: 15px; }
+.search-result h3 { font: 500 normal 1.375em Arial,Verdana,sans-serif; margin-top: 0 !important; margin-bottom: 10px !important; }
+.search-result h3 > a, .search-result i { color: #248dc1 !important; }
+.search-result h5 { margin-top: -5px; } 
+.search-result p  { margin-top: -5px; } 
