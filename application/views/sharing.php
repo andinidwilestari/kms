@@ -165,34 +165,41 @@
 
 
 <?php
-function SearchString($subject,$pattern) 
-{ $subject = strtolower($subject);
-    $pattern = strtolower($pattern);
-    $pattern = implode(explode(" ",$pattern));
-	$siga = 0;
-		$sigb = 0;
-		$Q = 100007;
-		$D = 256;
-    $n = strlen($subject);
-	$m = strlen($pattern);	
-	for ($i = 0; $i < $m; $i++)
-		{
-			$siga = ($siga * $D + $subject[$i]) % $Q;
-			$sigb = ($sigb * $D + $pattern[$i]) % $Q;
-		}
-		$pow = 1;
+    function SearchString($A, $B)
+    {
+        $hasil = array();
+        $hashpattern = 0;
+        $hashtext = 0;
+        $Q = 100007;
+        $D = 256;
+        $text = strlen($B);
+        $pattern = strlen($A);
 
-		for ($k = 1; $k <= $m - 1; $k++)
-			$pow = ($pow * $D) % $Q;
-		
-	for ($i = 0; $i < $n-$m; $i++) {
-		$j = 0;
-		while ($j < $m && $subject[$i+$j] == $pattern[$j]) {
-			$j++;
-		}
-		if ($j == $m) return $i;
-	}	
-	return -1;
-}
+        for ($i = 0; $i < $text; $i++)
+        {
+            $hashpattern = ($hashpattern * $D + $A[$i]) % $Q;
+            $hashtext = ($hashtext * $D + $B[$i]) % $Q;
+        }
+
+        // if ($hashpattern == $hashtext)
+        //     return 1;
+
+        $pow = 1;
+
+        for ($k = 1; $k <= $text - 1; $k++)
+            $pow = ($pow * $D) % $Q;
+
+        for ($j = 1; $j <= $pattern - $text; $j++)
+        {
+            $hashpattern = ($hashpattern + $Q - $pow * $A[$j - 1] % $Q) % $Q;
+            $hashpattern = ($hashpattern * $D + $A[$j + $text - 1]) % $Q;
+
+            if ($hashpattern == $hashtext)
+                if (substr($A, $j, $text) == $B)
+                    return $j;
+        }
+
+        return -1;
+    }
 ?>
 
